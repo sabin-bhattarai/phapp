@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 
 interface Particle {
   id: number;
@@ -19,8 +19,10 @@ export default function LeafParticles({
   count?: number;
   className?: string;
 }) {
-  const particles: Particle[] = useMemo(
-    () =>
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  useEffect(() => {
+    setParticles(
       Array.from({ length: count }, (_, i) => ({
         id: i,
         left: `${Math.random() * 100}%`,
@@ -29,9 +31,9 @@ export default function LeafParticles({
         size: 10 + Math.random() * 14,
         opacity: 0.3 + Math.random() * 0.5,
         rotate: Math.random() * 360,
-      })),
-    [count]
-  );
+      }))
+    );
+  }, [count]);
 
   return (
     <div

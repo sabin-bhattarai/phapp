@@ -1,177 +1,148 @@
 @import "tailwindcss";
 
-:root {
-  --forest: #006d3a;
-  --leaf: #8dc63f;
-  --background: #f5f5f2;
-  --beige: #dcc7a1;
-  --dark: #1f2a1f;
-  --muted: #7a7a7a;
+/* ── Tailwind v4 theme tokens ── */
+@theme {
+  --color-forest:     #1C6B35;
+  --color-forest-50:  #E8F5ED;
+  --color-forest-100: #C4E3CF;
+  --color-leaf:       #7DC44B;
+  --color-leaf-50:    #F2F9E9;
+  --color-bg:         #F5F5F2;
+  --color-beige:      #DCC7A1;
+  --color-dark:       #1F2A1F;
+  --color-muted:      #7A7A7A;
+
+  --shadow-luxury:      0 20px 60px rgba(0,109,58,0.10);
+  --shadow-card:        0 2px 16px rgba(31,42,31,0.07);
+  --shadow-card-hover:  0 12px 40px rgba(0,109,58,0.14);
+  --shadow-glow:        0 0 32px rgba(141,198,63,0.22);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* ── Base ── */
+*, *::before, *::after { box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background-color: var(--background);
-  color: var(--dark);
-  font-family: var(--font-poppins), "Poppins", sans-serif;
-  overflow-x: hidden;
+  background-color: #F5F5F2;
+  color: #1F2A1F;
+  font-family: var(--font-poppins), "Poppins", ui-sans-serif, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--background);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--forest);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--leaf);
-}
-
-::selection {
-  background: rgba(141, 198, 63, 0.3);
-  color: var(--dark);
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-poppins), "Poppins", ui-sans-serif, sans-serif;
+  font-weight: 700;
   line-height: 1.15;
-  color: var(--dark);
+  color: #1F2A1F;
 }
 
+/* ── Nepali font utility ── */
 .font-nepali {
   font-family: var(--font-devanagari), "Noto Sans Devanagari", sans-serif;
 }
 
-.section-padding {
-  padding: 6rem 0;
-}
+/* ── Scrollbar ── */
+::-webkit-scrollbar       { width: 4px; }
+::-webkit-scrollbar-track { background: #F5F5F2; }
+::-webkit-scrollbar-thumb { background: #006D3A; border-radius: 2px; }
+::selection { background: rgba(141,198,63,0.25); color: #1F2A1F; }
 
-@media (max-width: 768px) {
-  .section-padding {
-    padding: 4rem 0;
-  }
-}
-
+/* ── Layout ── */
 .container-custom {
-  max-width: 1280px;
+  max-width: 1240px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-.glass {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
+.section-padding { padding: 5rem 0; }
+@media (max-width: 768px) { .section-padding { padding: 3.5rem 0; } }
 
-.glass-dark {
-  background: rgba(31, 42, 31, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(141, 198, 63, 0.15);
-}
-
+/* ── Gradient text ── */
 .gradient-text {
-  background: linear-gradient(135deg, #006d3a, #8dc63f);
+  background: linear-gradient(135deg, #006D3A 0%, #8DC63F 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.ambient-glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.12;
-  pointer-events: none;
+/* ── Glass morphism ── */
+.glass {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
 }
 
-.img-zoom {
-  overflow: hidden;
+.glass-dark {
+  background: rgba(31,42,31,0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(141,198,63,0.15);
 }
 
-.img-zoom img {
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.glass-luxury {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
 }
 
-.img-zoom:hover img {
-  transform: scale(1.06);
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.skeleton {
-  background: linear-gradient(90deg, #e8e8e5 25%, #f0f0ed 50%, #e8e8e5 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
-
-.masonry-grid {
-  columns: 3;
-  column-gap: 1rem;
-}
-
-.masonry-grid-item {
-  break-inside: avoid;
-  margin-bottom: 1rem;
-}
-
-@media (max-width: 1024px) {
-  .masonry-grid {
-    columns: 2;
-  }
-}
-
-@media (max-width: 640px) {
-  .masonry-grid {
-    columns: 1;
-  }
-}
-
-*:focus-visible {
-  outline: 2px solid var(--leaf);
-  outline-offset: 3px;
-}
-
+/* ── Leaf particle ── */
 @keyframes leafFloat {
-  0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
-  10% { opacity: 0.7; }
-  90% { opacity: 0.5; }
-  100% { transform: translateY(-100vh) rotate(360deg) translateX(60px); opacity: 0; }
+  0%   { transform: translateY(0) rotate(0deg)    translateX(0);   opacity: 0; }
+  8%   { opacity: 0.55; }
+  92%  { opacity: 0.35; }
+  100% { transform: translateY(-90vh) rotate(330deg) translateX(45px); opacity: 0; }
 }
 
 .leaf-particle {
   animation: leafFloat var(--duration, 7s) ease-in-out infinite;
   animation-delay: var(--delay, 0s);
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
-@keyframes floatY {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-18px); }
+/* ── Image hover zoom ── */
+.img-zoom { overflow: hidden; }
+.img-zoom img {
+  transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  will-change: transform;
+}
+.img-zoom:hover img { transform: scale(1.04); }
+
+/* ── Masonry gallery ── */
+.masonry-grid          { columns: 3; column-gap: 1rem; }
+.masonry-grid-item     { break-inside: avoid; margin-bottom: 1rem; }
+@media (max-width: 1024px) { .masonry-grid { columns: 2; } }
+@media (max-width: 640px)  { .masonry-grid { columns: 1; } }
+
+/* ── Skeleton ── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg,#e8e8e5 25%,#f0f0ed 50%,#e8e8e5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
 }
 
-.float-anim {
-  animation: floatY 4s ease-in-out infinite;
+/* ── Ambient glow ── */
+.ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.07;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
 }
+
+/* ── Chart bar grow ── */
+@keyframes grow { from { height: 0; } }
+
+/* ── Focus ── */
+*:focus-visible { outline: 2px solid #8DC63F; outline-offset: 3px; }

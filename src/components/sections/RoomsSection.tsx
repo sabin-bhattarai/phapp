@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Users, Maximize2, ArrowRight, Star, Check, X } from "lucide-react";
 import { rooms, type Room } from "@/data/rooms";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -16,23 +16,56 @@ function RoomCard({ room, index }: { room: Room; index: number }) {
     setShowModal(false);
   };
 
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+    x.set(0);
+    y.set(0);
+  };
+
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{
-          delay: index * 0.12,
-          duration: 0.7,
-          ease: [0.25, 0.46, 0.45, 0.94],
-        }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        className="group relative rounded-3xl overflow-hidden bg-white shadow-card hover:shadow-card-hover transition-all duration-500 cursor-pointer"
-        style={{ transform: hovered ? "translateY(-8px) scale(1.01)" : "translateY(0) scale(1)" }}
-        onClick={() => setShowModal(true)}
-      >
+      <div style={{ perspective: 1200 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{
+            delay: index * 0.12,
+            duration: 0.7,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
+          onMouseMove={handleMouseMove}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={handleMouseLeave}
+          className="group relative rounded-3xl overflow-hidden bg-white shadow-card hover:shadow-card-hover transition-shadow duration-500 cursor-pointer"
+          style={{
+            rotateX,
+            rotateY,
+            transformStyle: "preserve-3d",
+          }}
+          onClick={() => setShowModal(true)}
+        >
         {/* Image area */}
         <div className="relative h-64 overflow-hidden">
           {/* Placeholder with gradient — replace with actual images */}
@@ -139,6 +172,7 @@ function RoomCard({ room, index }: { room: Room; index: number }) {
           </button>
         </div>
       </motion.div>
+      </div>
 
       {/* Detail Modal */}
       <AnimatePresence>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   Phone,
   Mail,
@@ -88,18 +88,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand column */}
           <div className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 bg-forest rounded-xl flex items-center justify-center">
-                <svg viewBox="0 0 40 40" className="w-7 h-7" fill="none">
-                  <path d="M20 4L6 14v18h28V14L20 4z" fill="#8DC63F" opacity="0.9" />
-                  <path d="M15 32V22h10v10" fill="#006D3A" />
-                  <path d="M20 4L6 14h28L20 4z" fill="#fff" opacity="0.5" />
-                </svg>
-              </div>
-              <div>
-                <div className="text-white font-bold">Pahuna Ghar</div>
-                <div className="text-white/50 text-xs tracking-wider">HOMESTAY · TANSEN</div>
-              </div>
+            <div className="mb-5 inline-block rounded-2xl overflow-hidden bg-white/8 p-3">
+              <Image
+                src="/logo.png"
+                alt="Pahuna Ghar Homestay"
+                width={160}
+                height={100}
+                className="w-36 h-auto object-contain"
+              />
             </div>
 
             <p className="text-white/60 text-sm leading-relaxed mb-4">

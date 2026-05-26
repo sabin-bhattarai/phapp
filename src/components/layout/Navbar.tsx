@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, Mail } from "lucide-react";
 
@@ -60,7 +61,7 @@ export default function Navbar() {
         transition={{ duration: 0.35, ease: "easeInOut" }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-white/95 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,109,58,0.08)] border-b border-forest/5"
+            ? "glass-luxury"
             : "bg-transparent"
         }`}
       >
@@ -104,34 +105,22 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               href="/"
-              className="flex items-center gap-2.5 group flex-shrink-0"
+              className="flex items-center gap-2 group flex-shrink-0"
             >
-              <div
-                className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 ${
-                  scrolled ? "bg-forest" : "bg-white/15 backdrop-blur-sm"
-                }`}
-              >
-                {/* SVG Logo Mark */}
-                <svg viewBox="0 0 40 40" className="w-7 h-7" fill="none">
-                  <path
-                    d="M20 4L6 14v18h28V14L20 4z"
-                    fill={scrolled ? "#8DC63F" : "#fff"}
-                    opacity="0.9"
-                  />
-                  <path
-                    d="M15 32V22h10v10"
-                    fill={scrolled ? "#006D3A" : "#8DC63F"}
-                  />
-                  <path
-                    d="M20 4L6 14h28L20 4z"
-                    fill={scrolled ? "#006D3A" : "#fff"}
-                    opacity="0.7"
-                  />
-                </svg>
+              <div className={`rounded-xl overflow-hidden transition-all duration-300 group-hover:scale-105 flex-shrink-0 ${
+                scrolled ? "bg-white shadow-card" : "bg-white/95"
+              }`}>
+                <Image
+                  src="/logo-mark.png"
+                  alt="Pahuna Ghar"
+                  width={96}
+                  height={52}
+                  className="w-12 h-auto object-contain p-0.5"
+                />
               </div>
               <div>
                 <div
-                  className={`font-bold text-base leading-tight tracking-tight transition-colors ${
+                  className={`font-extrabold text-base leading-tight tracking-tight transition-colors ${
                     scrolled ? "text-forest" : "text-white"
                   }`}
                 >
@@ -147,7 +136,6 @@ export default function Navbar() {
               </div>
             </Link>
 
-            {/* Desktop nav links */}
             <nav className="hidden lg:flex items-center gap-1">
               {navLinks.map(({ label, href }) => {
                 const id = href.replace("#", "");
@@ -180,10 +168,10 @@ export default function Navbar() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => scrollTo("#booking")}
-                className={`hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95 ${
+                className={`hidden md:inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105 active:scale-95 ${
                   scrolled
-                    ? "bg-forest text-white hover:bg-forest/90 shadow-[0_4px_20px_rgba(0,109,58,0.3)]"
-                    : "bg-white/15 backdrop-blur-sm text-white border border-white/30 hover:bg-white/25"
+                    ? "bg-forest text-white hover:bg-forest/90 shadow-luxury"
+                    : "bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20"
                 }`}
               >
                 Book Your Stay
@@ -216,9 +204,8 @@ export default function Navbar() {
             className="fixed inset-y-0 right-0 w-80 bg-white z-40 shadow-2xl flex flex-col lg:hidden"
           >
             <div className="flex items-center justify-between p-5 border-b border-forest/10">
-              <div>
-                <div className="font-bold text-forest">Pahuna Ghar</div>
-                <div className="text-xs text-muted">Homestay · Tansen, Palpa</div>
+              <div className="rounded-xl overflow-hidden bg-white shadow-card">
+                <Image src="/logo-mark.png" alt="Pahuna Ghar" width={96} height={52} className="w-12 h-auto object-contain p-0.5" />
               </div>
               <button
                 onClick={() => setMobileOpen(false)}

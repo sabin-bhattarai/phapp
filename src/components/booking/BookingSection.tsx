@@ -21,6 +21,8 @@ import {
 } from "lucide-react";
 import { rooms } from "@/data/rooms";
 import SectionHeader from "@/components/ui/SectionHeader";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 type Step = "dates" | "room" | "guest" | "payment" | "confirm";
 
@@ -82,8 +84,6 @@ function DateStep({
   data: { checkin: string; checkout: string; guests: number };
   onChange: (d: Partial<typeof data>) => void;
 }) {
-  const today = new Date().toISOString().split("T")[0];
-
   return (
     <motion.div
       initial={{ opacity: 0, x: 30 }}
@@ -94,22 +94,24 @@ function DateStep({
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-semibold text-dark mb-2">Check-In Date</label>
-          <input
-            type="date"
-            min={today}
-            value={data.checkin}
-            onChange={(e) => onChange({ checkin: e.target.value })}
-            className="w-full px-4 py-3 rounded-xl border border-forest/20 focus:border-forest focus:ring-2 focus:ring-forest/10 outline-none text-dark bg-white transition-all"
+          <DatePicker
+            selected={data.checkin ? new Date(data.checkin) : null}
+            onChange={(date: Date | null) => onChange({ checkin: date?.toISOString().split("T")[0] || "" })}
+            minDate={new Date()}
+            placeholderText="Select Date"
+            className="w-full px-4 py-3 rounded-xl border border-forest/20 focus:border-forest focus:ring-2 focus:ring-forest/10 outline-none text-dark bg-white transition-all shadow-sm"
+            wrapperClassName="w-full"
           />
         </div>
         <div>
           <label className="block text-sm font-semibold text-dark mb-2">Check-Out Date</label>
-          <input
-            type="date"
-            min={data.checkin || today}
-            value={data.checkout}
-            onChange={(e) => onChange({ checkout: e.target.value })}
-            className="w-full px-4 py-3 rounded-xl border border-forest/20 focus:border-forest focus:ring-2 focus:ring-forest/10 outline-none text-dark bg-white transition-all"
+          <DatePicker
+            selected={data.checkout ? new Date(data.checkout) : null}
+            onChange={(date: Date | null) => onChange({ checkout: date?.toISOString().split("T")[0] || "" })}
+            minDate={data.checkin ? new Date(data.checkin) : new Date()}
+            placeholderText="Select Date"
+            className="w-full px-4 py-3 rounded-xl border border-forest/20 focus:border-forest focus:ring-2 focus:ring-forest/10 outline-none text-dark bg-white transition-all shadow-sm"
+            wrapperClassName="w-full"
           />
         </div>
       </div>

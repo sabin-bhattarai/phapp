@@ -1,15 +1,16 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   Environment,
   Float,
-  MeshDistortMaterial,
   Sphere,
   Box,
   Cylinder,
   Cone,
+  PresentationControls,
+  ContactShadows,
 } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -99,12 +100,13 @@ function House() {
 
 function Tree({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
   const treeRef = useRef<THREE.Group>(null);
-  const swayOffset = useMemo(() => Math.random() * Math.PI * 2, []);
+  const swayOffset = useRef(0);
+  useEffect(() => { swayOffset.current = Math.random() * Math.PI * 2; }, []);
 
   useFrame((state) => {
     if (!treeRef.current) return;
     treeRef.current.rotation.z =
-      Math.sin(state.clock.elapsedTime * 0.6 + swayOffset) * 0.025;
+      Math.sin(state.clock.elapsedTime * 0.6 + swayOffset.current) * 0.025;
   });
 
   return (
@@ -168,11 +170,12 @@ function Ground() {
 
 function Cloud({ position }: { position: [number, number, number] }) {
   const cloudRef = useRef<THREE.Group>(null);
-  const speed = useMemo(() => 0.03 + Math.random() * 0.02, []);
+  const speed = useRef(0.03);
+  useEffect(() => { speed.current = 0.03 + Math.random() * 0.02; }, []);
 
   useFrame(() => {
     if (!cloudRef.current) return;
-    cloudRef.current.position.x += speed * 0.005;
+    cloudRef.current.position.x += speed.current * 0.005;
     if (cloudRef.current.position.x > 6) cloudRef.current.position.x = -6;
   });
 
@@ -217,21 +220,32 @@ function Lantern({ position }: { position: [number, number, number] }) {
 function SceneContent() {
   return (
     <>
-      <ambientLight intensity={0.6} color="#E6F4EC" />
+      <ambientLight intensity={0.4} color="#E6F4EC" />
       <directionalLight
-        position={[5, 8, 5]}
-        intensity={1.2}
+        position={[5, 10, 5]}
+        intensity={1.5}
         color="#FFF9E6"
         castShadow
+        shadow-mapSize-width={1024}
+        shadow-mapSize-height={1024}
       />
-      <directionalLight position={[-4, 3, -2]} intensity={0.3} color="#C2E3D0" />
-      <pointLight position={[0, 4, 3]} intensity={0.4} color="#8DC63F" />
+      <directionalLight position={[-4, 3, -2]} intensity={0.5} color="#C2E3D0" />
+      <pointLight position={[0, 4, 3]} intensity={0.8} color="#8DC63F" distance={10} />
 
-      <Float speed={1.2} rotationIntensity={0.05} floatIntensity={0.15}>
-        <House />
-      </Float>
+      <PresentationControls
+        global
+        rotation={[0, 0.3, 0]}
+        polar={[-Math.PI / 4, Math.PI / 4]}
+        azimuth={[-Math.PI / 4, Math.PI / 4]}
+      >
+        <Float speed={1.2} rotationIntensity={0.05} floatIntensity={0.15}>
+          <House />
+        </Float>
 
-      <Ground />
+        <Ground />
+
+        {/* Contact shadows for realistic depth */}
+        <ContactShadows position={[0, -1.02, 0]} opacity={0.6} scale={10} blur={2.5} far={4} frames={1} />
 
       {/* Trees */}
       <Tree position={[-2.4, -0.85, -0.5]} scale={0.9} />
@@ -259,14 +273,11 @@ function SceneContent() {
       {Array.from({ length: 8 }).map((_, i) => (
         <FloatingLeaf
           key={i}
-          position={[
-            (Math.random() - 0.5) * 4,
-            Math.random() * 2 - 0.5,
-            (Math.random() - 0.5) * 2,
-          ]}
+          position={[(i - 4) * 0.5, 0.5, (i % 2 === 0 ? 1 : -1) * 0.5]}
           delay={i * 0.8}
         />
       ))}
+      </PresentationControls>
 
       <Environment preset="forest" />
       <fog attach="fog" args={["#C2E3D0", 10, 25]} />
