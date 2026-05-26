@@ -23,6 +23,7 @@ import {
   Percent,
   Tag,
   Menu,
+  type LucideIcon,
 } from "lucide-react";
 
 // ---- Types ----
@@ -58,7 +59,7 @@ const mockBookings: Booking[] = [
   { id: "BK005", guest: "Bikash Rai", email: "bikash@gmail.com", room: "Deluxe Room", checkin: "2026-05-28", checkout: "2026-05-30", guests: 2, amount: 9000, status: "checkedIn", payment: "eSewa", createdAt: "2026-05-20" },
 ];
 
-const navItems: { id: NavTab; label: string; icon: React.ElementType }[] = [
+const navItems: { id: NavTab; label: string; icon: LucideIcon }[] = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { id: "bookings", label: "Bookings", icon: CalendarDays },
   { id: "rooms", label: "Rooms", icon: BedDouble },
@@ -87,7 +88,7 @@ function StatCard({
   value: string;
   change: string;
   positive: boolean;
-  icon: React.ElementType;
+  icon: LucideIcon;
   color: string;
 }) {
   return (

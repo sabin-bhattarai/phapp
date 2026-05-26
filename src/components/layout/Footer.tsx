@@ -6,9 +6,6 @@ import {
   Phone,
   Mail,
   MapPin,
-  Instagram,
-  Facebook,
-  Youtube,
   ArrowUpRight,
   Heart,
   Leaf,
@@ -115,17 +112,17 @@ export default function Footer() {
 
             <div className="flex items-center gap-3">
               {[
-                { icon: Instagram, label: "Instagram", href: "#" },
-                { icon: Facebook, label: "Facebook", href: "#" },
-                { icon: Youtube, label: "YouTube", href: "#" },
-              ].map(({ icon: Icon, label, href }) => (
+                { label: "IG", href: "#" },
+                { label: "FB", href: "#" },
+                { label: "YT", href: "#" },
+              ].map(({ label, href }) => (
                 <a
                   key={label}
                   href={href}
                   aria-label={label}
                   className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-white/50 hover:border-leaf hover:text-leaf transition-all duration-300 hover:scale-110"
                 >
-                  <Icon size={16} />
+                  <span className="text-[10px] font-bold">{label}</span>
                 </a>
               ))}
             </div>

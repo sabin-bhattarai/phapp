@@ -17,13 +17,14 @@ import {
   User,
   Star,
   Shield,
+  type LucideIcon,
 } from "lucide-react";
 import { rooms } from "@/data/rooms";
 import SectionHeader from "@/components/ui/SectionHeader";
 
 type Step = "dates" | "room" | "guest" | "payment" | "confirm";
 
-const STEPS: { id: Step; label: string; icon: React.ElementType }[] = [
+const STEPS: { id: Step; label: string; icon: LucideIcon }[] = [
   { id: "dates", label: "Dates", icon: Calendar },
   { id: "room", label: "Room", icon: Building },
   { id: "guest", label: "Guest Info", icon: User },
