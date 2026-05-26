@@ -56,15 +56,11 @@ export default function HomePage() {
 
       <Footer />
 
-      {/* Sticky mobile booking CTA */}
+      {/* Sticky mobile booking CTA — plain anchor, no JS needed */}
       <div className="fixed bottom-4 left-4 right-4 z-40 md:hidden">
         <a
           href="#booking"
-          onClick={(e) => {
-            e.preventDefault();
-            document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
-          }}
-          className="flex items-center justify-center gap-2 w-full py-4 bg-forest text-white rounded-2xl font-semibold text-base shadow-luxury-lg"
+          className="flex items-center justify-center gap-2 w-full py-4 bg-[#006D3A] text-white rounded-2xl font-semibold text-base shadow-[0_20px_60px_rgba(0,109,58,0.3)]"
         >
           📅 Book Your Stay
         </a>
